@@ -57,6 +57,7 @@ func meanSpeed(steps int, height float64, duration time.Duration) float64 {
 
 func TrainingInfo(data string, weight, height float64) (string, error) {
 	steps, activity, duration, err := parseTraining(data)
+
 	if err != nil {
 		return "", err
 	}
@@ -84,25 +85,37 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
-		return 0, errors.New("incorrect data for running")
+	switch {
+	case steps <= 0:
+		return 0, errors.New("invalid input: steps must be > 0")
+	case weight <= 0:
+		return 0, errors.New("invalid input: weight must be > 0")
+	case height <= 0:
+		return 0, errors.New("invalid input: height must be > 0")
+	case duration <= 0:
+		return 0, errors.New("invalid input: duration must be > 0")
 	}
 
 	speed := meanSpeed(steps, height, duration)
 	durationMin := duration.Minutes()
 	calories := (weight * speed * durationMin) / minInH
 	return calories, nil
-
 }
 
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
-		return 0, errors.New("incorrect data for running")
+	switch {
+	case steps <= 0:
+		return 0, errors.New("invalid input: steps must be > 0")
+	case weight <= 0:
+		return 0, errors.New("invalid input: weight must be > 0")
+	case height <= 0:
+		return 0, errors.New("invalid input: height must be > 0")
+	case duration <= 0:
+		return 0, errors.New("invalid input: duration must be > 0")
 	}
 
 	speed := meanSpeed(steps, height, duration)
 	durationMin := duration.Minutes()
 	calories := (weight * speed * durationMin) / minInH
 	return calories * walkingCaloriesCoefficient, nil
-
 }
