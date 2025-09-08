@@ -52,6 +52,7 @@ func DayActionInfo(data string, weight, height float64) string {
 		return ""
 	}
 	if steps <= 0 {
+		log.Println("steps cannot be less that 0")
 		return ""
 	}
 
